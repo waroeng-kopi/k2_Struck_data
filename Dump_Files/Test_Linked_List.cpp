@@ -32,8 +32,8 @@ void Insert(int Data, int n){
 void Print(){
     Node* temp = Head;
     while(temp != NULL){
-        std::cout << temp->Data << " ";
-        temp = temp->Next;
+        std::cout << temp->Data << " : " << temp->Next << std::endl;
+        temp = temp->Next; // change Next Node
     }
     std::cout << std::endl;
 }

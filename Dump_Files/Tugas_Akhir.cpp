@@ -18,24 +18,11 @@ public:
     Node* Next;
 };
 
-Node* Head = new Node(); // membuat Node untuk head
-
 void Output_List(Node* n){
     while(n != NULL){
-        std::cout << n->Nilai << " ";
+        std::cout << n->Nilai << " : " << n->Next << std::endl;
         n = n->Next; // mengubah posisi dari Node awal ke Node berikutnya
     }
-    std::cout << std::endl;
-
-    int a = 1;
-    n = Head;
-
-    while(n != NULL){
-        std::cout << a << " ";
-        n = n->Next;
-        a++;
-    }
-    std::cout << std::endl;
 }
 
 void Error_Msg(){
@@ -43,29 +30,70 @@ void Error_Msg(){
     std::endl;
 }
 
-void TambahNode(int Data, int Posisi){
-    Node* Bantu_1 = new Node();
-    Bantu_1->Nilai = Data;
-    Bantu_1->Next = NULL;
+void TambahNodeDepan(Node** Head_Awal, int Nilai_Baru){
+    // Membuat Node baru dan memberinya nilai sesuai parameter
+    Node* Node_Baru = new Node();
+    Node_Baru->Nilai = Nilai_Baru;
 
-    if(Posisi == 1){
-        Bantu_1->Next = Head;
-        Head = Bantu_1;
-        return; // Menghentikan proses fungsi
-    }
+    // Menaruh Node baru dengan menggunakan nilai pointer head
+    Node_Baru->Next = *Head_Awal;
 
-    Node* Bantu_2 = Head;
-
-    for(int a = 0; a < Posisi-2; a++){
-        Bantu_2 = Bantu_2->Next;
-    }
-
-    Bantu_1->Next = Bantu_2->Next;
-    Bantu_2->Next = Bantu_1;
+    // Menganti nilai head menjadi Node baru
+    *Head_Awal = Node_Baru;
 }
 
+void TambahNodeSetelah(Node* Head_Awal, int Nilai_Baru){
+    // menguji Node awal berbilai NULL
+    if(Head_Awal == NULL){
+        std::cout << "Node sebelumnya tidak boleh kososng" << std::endl;
+        return; // keluar dari fungsi
+    }
+
+    // Membuat Node Baru
+    Node* Node_Baru = new Node();
+    Node* Node_Bantu = new Node();
+    Node_Baru->Nilai = Nilai_Baru;
+
+    Node_Bantu->Nilai = Head_Awal->Nilai;
+    Node_Bantu->Next = Head_Awal->Next;
+
+
+
+    // Mengambil nilai Head_Awal ke Node_Baru
+    Node_Baru->Next = Head_Awal->Next;
+    Head_Awal->Next = Node_Baru;
+}
+
+void TambahNodeBelakang(Node** Head_Awal, int Nilai_Baru){
+    // Membuat Node baru
+    Node* Node_Baru = new Node();
+    Node_Baru->Nilai = Nilai_Baru;
+    Node_Baru->Next = NULL;
+
+    // Menguji Node apakah kosong
+    if(*Head_Awal == NULL){
+        *Head_Awal = Node_Baru;
+        return;
+    }
+
+    // Mencari Node terakhir
+    Node* Akhir = *Head_Awal; // Akhir mengambil nilai head
+
+    // Mengulang Next Akhir untuk mencari Node terakhir
+    while(Akhir->Next != NULL){
+        Akhir = Akhir->Next;
+    }
+
+    // Ketika Node terakhir berhasil di temukan maka buat Node baru di akhir
+    Akhir->Next = Node_Baru;
+}
+
+Node* Head = new Node(); // membuat Node untuk head
+
 int main(void){
-    int Pilihan, Pilihan_01, Pilihan_02, Pilihan_03;
+    int Pilihan, Pilihan_01, Pilihan_02, Posisi;
+
+    
     Head = NULL; // Memberi nilai NULL pada Head
 
     // Menu Program
@@ -111,10 +139,9 @@ int main(void){
 
                         // Memastikan inputan berupa bilangan Integer dan menghindari Error saat input nilai
                         if(Pilihan_02 >= 0 || Pilihan_02 <= 0){
-                            TambahNode(Pilihan_02, 1);
-                            break; // Keluar dari loop 1.1
+                            TambahNodeDepan(&Head, Pilihan_02);
+                            break; // Keluar dari Loop 1.1
                         }
-
                         else{
                             Error_Msg();
                         }
@@ -126,13 +153,12 @@ int main(void){
                     while(true){
                         std::cout << "Nilai yang ingin di inputkan : ";
                         std::cin >> Pilihan_02;
-                        std::cout << "Posisi Node : ";
-                        std::cin >> Pilihan_03;
                         system("CLS");
 
                         // Memastikan inputan berupa bilangan Integer dan menghindari Error saat input nilai
                         if(Pilihan_02 >= 0 || Pilihan_02 <= 0){
-                            TambahNode(Pilihan_02, Pilihan_03);
+                            
+                            TambahNodeSetelah(Head, Pilihan_02);
                             break;
                         }
                         else{
@@ -150,17 +176,8 @@ int main(void){
 
                         // Memastikan inputan berupa bilangan Integer dan menghindari Error saat input nilai
                         if(Pilihan_02 >= 0 || Pilihan_02 <= 0){
-                            // mencari posisi terakhir dari Node
-                            Node* n = Head;
-                            int a = 1;
-
-                            while(n->Next != NULL){
-                                n = n->Next; // memindah posisi Next Node
-                                a = a + 1; // agar proses penambahan terjadi di dalam loop (bukan diakhir loop)
-                            }
                             
-                            std::cout << "LOG : " << a << std::endl;
-                            TambahNode(Pilihan_02, a);
+                            TambahNodeBelakang(&Head, Pilihan_02);
                             break;
                         }
                         else{
