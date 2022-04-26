@@ -64,6 +64,11 @@ void TambahNode(int Data, int Posisi){
     Bantu_2->Next = Bantu_1;
 }
 
+void HapusNode(int Data){
+    Node* Bantu_1 = new Node();
+    
+}
+
 int main(void){
     int Pilihan, Pilihan_01, Pilihan_02, Pilihan_03;
     Head = NULL; // Memberi nilai NULL pada Head
