@@ -66,6 +66,7 @@ void TambahNode(int Data, int Posisi){
 
 void HapusNode(int Data){
     Node* Bantu_1 = new Node();
+    Bantu_1->Nilai = Data;
     
 }
 
