@@ -12,6 +12,13 @@
 #include <stdlib.h> // system("CLS")
 
 // Class dari simpul
+//
+//  entuk illustrasi dari simpul yang digunakan.
+//  +---------+--------+
+//  |  Nilai  |  Next  |--->
+//  +---------+--------+
+//
+
 class Node {
 public:
     int Nilai;
@@ -46,7 +53,6 @@ void Error_Msg(){
 void TambahNode(int Data, int Posisi){
     Node* Bantu_1 = new Node();
     Bantu_1->Nilai = Data;
-    Bantu_1->Next = NULL;
 
     if(Posisi == 1){
         Bantu_1->Next = Head;
@@ -64,9 +70,22 @@ void TambahNode(int Data, int Posisi){
     Bantu_2->Next = Bantu_1;
 }
 
-void HapusNode(int Data){
-    Node* Bantu_1 = new Node();
-    Bantu_1->Nilai = Data;
+void HapusNode(int Posisi){
+    Node* Bantu_1 = Head; // Mendapatkan nilai Head ke Bantu_1
+
+    if(Posisi == 1){
+        Head = Bantu_1->Next;
+        delete Bantu_1;
+        return;
+    }
+
+    for (int a = 0; a < Posisi-2; a++){
+        Bantu_1 = Bantu_1->Next;
+    }
+
+    Node* Bantu_2 = Bantu_1->Next;
+    Bantu_1->Next = Bantu_2->Next;
+    delete Bantu_2;
     
 }
 
