@@ -69,44 +69,92 @@ void Dequeue(){
     return;
 }
 
+std::string StacktoArray(){
+    Node* Bantu = Stack;
+    std::string array;
+    int angka = 0;
+
+    do{
+        array[angka] = Bantu->Data;
+        Bantu = Bantu->Next;
+        angka++;
+    }while (Bantu != NULL);
+    return array;
+}
+
 int main(void){
     Stack = NULL;
     Queue = NULL;
-    std::string input;
+    std::string input,
+    arrayStack;
     int panjangInput;
 
     std::cout << "Input notasi : ";
     std::getline(std::cin, input);
 
     for (int i = 0; i < input.length(); i++){
-        if(input[i] == '('){
-            // push ke dalam stack
+        // switch (input[i]){
+        //     case '(':
+        //         Push(input[i]);
+        //         break;
+        //     case ')':
+        //         arrayStack = StacktoArray();
+        //         for(int j = 0; j < arrayStack.length(); j++){
+        //             // if(arrayStack[j] == '(' || arrayStack[j] == ')'){
+        //             //     Pop();
+        //             // }
+        //             Pop();
+        //         }
+        //         break;
+        //     case '^':
+        //         Push(input[i]);
+        //         break;
+        //     case '/':
+        //         Push(input[i]);
+        //         break;
+        //     case '*':
+        //         Push(input[i]);
+        //         break;
+        //     case '-':
+        //         Push(input[i]);
+        //         break;
+        //     case '+':
+        //         Push(input[i]);
+        //         break;
+        //     default:
+        //         Push(input[i]);
+        //         break;
+        // }
+
+        if(input[i]=='('){
             Push(input[i]);
         }
-        else if(input[i] == ')'){
-            // pop stack dan enqueue sampai bertemu (
-            while(true){
+        else if(input[i]==')'){
+            arrayStack = StacktoArray();
+            for(int j = 0; j < arrayStack.length(); j++){
+                // if(arrayStack[j] == '(' || arrayStack[j] == ')'){
+                //     Pop();
+                // }
                 Pop();
             }
         }
-        else if(input[i] == '^'){
+        else if(input[i]=='^'){
             Push(input[i]);
         }
-        else if(input[i] == '/'){
+        else if(input[i]=='/'){
             Push(input[i]);
         }
-        else if(input[i] == '*'){
+        else if(input[i]=='*'){
             Push(input[i]);
         }
-        else if(input[i] == '-'){
+        else if(input[i]=='-'){
             Push(input[i]);
         }
-        else if(input[i] == '+'){
+        else if(input[i]=='+'){
             Push(input[i]);
         }
-        else if (input[i] >= 'A' && input[i] <= 'Z'){
-            Enqueue(input[i]);
+        else{
+            Push(input[i]);
         }
-        continue;
     }
 }

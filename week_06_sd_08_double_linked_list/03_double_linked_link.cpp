@@ -1,11 +1,8 @@
-// Programmer : Adam Rahmat Ilahi
-// Saturday, 26 March 2022
-// 
-// Soal:
-//          Membuat Program yang dapat menampilkan menu,
-//      Yang dapat melakukan Konsep Linked List, yaitu :
-//      Menambah Node, Menghapus Node, Mencari Node, 
-//      Mengoutputkan Node.
+// Programer : Adam Rahmat Ilahi
+// Tuesday, 22 March 2022
+//
+// Soal: Membuat sebuah singel Linked List pada Pointer
+// yang dapat menambah, menghapus, mencari, dan mengoutputkan list
 //
 
 #include <iostream>
@@ -14,15 +11,16 @@
 // Class dari simpul
 //
 //  entuk illustrasi dari simpul yang digunakan.
-//  +---------+--------+
-//  |  Nilai  |  Next  |--->
-//  +---------+--------+
+//      +--------+--------+---------+
+//  <---|  Kiri  |  Nilai  |  Kanan  |--->
+//      +--------+---------+---------+
 //
 
 class Node {
 public:
     int Nilai;
-    Node* Next;
+    Node* Kanan;
+    Node* Kiri;
 };
 
 Node* Head = new Node(); // membuat Node untuk head
@@ -30,7 +28,7 @@ Node* Head = new Node(); // membuat Node untuk head
 void Output_List(Node* n){
     while(n != NULL){
         std::cout << n->Nilai << " -> ";
-        n = n->Next; // mengubah posisi dari Node awal ke Node berikutnya
+        n = n->Kanan; // mengubah posisi dari Node awal ke Node berikutnya
     }
     std::cout << "NULL" << std::endl;
 }
@@ -45,7 +43,7 @@ void TambahNode(int Data, int Posisi){
     Bantu_1->Nilai = Data;
 
     if(Posisi <= 1){
-        Bantu_1->Next = Head;
+        Bantu_1->Kanan = Head;
         Head = Bantu_1;
         return; // Menghentikan proses fungsi
     }
@@ -53,28 +51,28 @@ void TambahNode(int Data, int Posisi){
     Node* Bantu_2 = Head;
 
     for(int a = 0; a < Posisi-2; a++){
-        Bantu_2 = Bantu_2->Next;
+        Bantu_2 = Bantu_2->Kanan;
     }
 
-    Bantu_1->Next = Bantu_2->Next;
-    Bantu_2->Next = Bantu_1;
+    Bantu_1->Kanan = Bantu_2->Kanan;
+    Bantu_2->Kanan = Bantu_1;
 }
 
 void HapusNode(int Posisi){
     Node* Bantu_1 = Head; // Mendapatkan nilai Head ke Bantu_1
 
     if(Posisi == 1){
-        Head = Bantu_1->Next;
+        Head = Bantu_1->Kanan;
         delete Bantu_1;
         return;
     }
 
     for (int a = 0; a < Posisi-2; a++){
-        Bantu_1 = Bantu_1->Next;
+        Bantu_1 = Bantu_1->Kanan;
     }
 
-    Node* Bantu_2 = Bantu_1->Next;
-    Bantu_1->Next = Bantu_2->Next;
+    Node* Bantu_2 = Bantu_1->Kanan;
+    Bantu_1->Kanan = Bantu_2->Kanan;
     delete Bantu_2;
     
 }
@@ -82,17 +80,18 @@ void HapusNode(int Posisi){
 int main(void){
     int Pilihan, Pilihan_01, Pilihan_02, Pilihan_03;
     Head = NULL; // Memberi nilai NULL pada Head
+    int Bantu_Pcc = 1;
 
     // Menu Program
     while(true){
-        std::cout << "#######################" <<
-        std::endl << "#   Menu Pilihan :    #" <<
-        std::endl << "#  1. Menambah Node   #" <<
-        std::endl << "#  2. Menghapus Node  #" <<
-        std::endl << "#  3. Mencari Node    #" <<
-        std::endl << "#  4. Mencetak Node   #" <<
-        std::endl << "#  0. Keluar          #" <<
-        std::endl << "#######################" <<
+        std::cout << "+---------------------+" <<
+        std::endl << "|   Menu Pilihan :    |" <<
+        std::endl << "|  1. Menambah Node   |" <<
+        std::endl << "|  2. Menghapus Node  |" <<
+        std::endl << "|  3. Mencari Node    |" <<
+        std::endl << "|  4. Mencetak Node   |" <<
+        std::endl << "|  0. Keluar          |" <<
+        std::endl << "+---------------------+" <<
         std::endl << "Pilihan : ";
         std::cin >> Pilihan;
         system("CLS"); // clear screen
@@ -103,13 +102,13 @@ int main(void){
 
         else if(Pilihan == 1){
             while(true){
-                std::cout << "#######################" <<
-                std::endl << "#   Menambah Node :   #" <<
-                std::endl << "#  1. Di Depan Head   #" <<
-                std::endl << "#  2. Setelah Node    #" <<
-                std::endl << "#  3. Di Akhir Tail   #" <<
-                std::endl << "#  0. Kembali         #" <<
-                std::endl << "#######################" <<
+                std::cout << "+---------------------+" <<
+                std::endl << "|   Menambah Node :   |" <<
+                std::endl << "|  1. Di Depan Head   |" <<
+                std::endl << "|  2. Setelah Node    |" <<
+                std::endl << "|  3. Di Akhir Tail   |" <<
+                std::endl << "|  0. Kembali         |" <<
+                std::endl << "+---------------------+" <<
                 std::endl << "Pilihan : ";
                 std::cin >> Pilihan_01;
                 system("CLS");
@@ -146,8 +145,17 @@ int main(void){
                         system("CLS");
 
                         // Memastikan inputan berupa bilangan Integer dan menghindari Error saat input nilai
+                        Node* Bantu_1 = Head;
                         if(Pilihan_02 >= 0 || Pilihan_02 <= 0){
-                            TambahNode(Pilihan_02, Pilihan_03);
+                            while (Bantu_1 != NULL){
+                                Bantu_1 = Bantu_1->Kanan;
+                                if (Bantu_Pcc == Pilihan_03){
+                                    break;
+                                }
+                                Bantu_Pcc++;
+                            }
+                            TambahNode(Pilihan_02, Bantu_Pcc);
+                            Bantu_Pcc = 1;
                             break;
                         }
                         else{
@@ -166,16 +174,14 @@ int main(void){
                         // Memastikan inputan berupa bilangan Integer dan menghindari Error saat input nilai
                         if(Pilihan_02 >= 0 || Pilihan_02 <= 0){
                             // mencari posisi terakhir dari Node
-                            Node* n = Head;
-                            int a = 1;
-
-                            while(n->Next != NULL){
-                                n = n->Next; // memindah posisi Next Node
-                                a = a + 1; // agar proses penambahan terjadi di dalam loop (bukan diakhir loop)
+                            Node* Bantu_1 = Head;
+                            while(Bantu_1 != NULL){
+                                Bantu_1 = Bantu_1->Kanan; // memindah posisi Next Node
+                                Bantu_Pcc++; // agar proses penambahan terjadi di dalam loop (bukan diakhir loop)
                             }
                             
-                            std::cout << "LOG : " << a << std::endl;
-                            TambahNode(Pilihan_02, a);
+                            TambahNode(Pilihan_02, Bantu_Pcc);
+                            Bantu_Pcc = 1;
                             break;
                         }
                         else{
@@ -192,28 +198,47 @@ int main(void){
         }
 
         else if(Pilihan == 2){
-            while(true){
-                std::cout << "Nilai yang ingin di hapus : ";
-                std::cin >> Pilihan_01;
-                system("CLS");
+            std::cout << "Nilai yang ingin di hapus : ";
+            std::cin >> Pilihan_01;
+            system("CLS");
 
-                //for (int i = 1; i <= Input_JML_Data; i++){
-                while(true){
-                    if(Bantu_1->Nilai == Input_Cari){
-                        std::cout << Bantu_1->Nilai << " ada di index ke-" << i << std::endl;
-                        break;
-                    }
-                    else{
-                        Bantu_1 = Bantu_1->Next;
-                    }
-                    if(i == Input_JML_Data){
-                        std::cout << "Data yang ingin dicari tidak ada" << std::endl;
-                    }
+            Node* Bantu_1 = Head;
+            while(Bantu_1 != NULL){
+                if(Bantu_1->Nilai == Pilihan_01){
+                    HapusNode(Bantu_Pcc);
+                    Bantu_Pcc = 1;
+                    break;
                 }
+                else{
+                    Bantu_1 = Bantu_1->Kanan;
+                }
+                Bantu_Pcc++;
+            }
+            if(Bantu_1 == NULL){
+                std::cout << "Data yang ingin dicari tidak ada" << std::endl;
             }
         }
 
         else if(Pilihan == 3){
+            std::cout << "Nilai yang ingin di cari : ";
+            std::cin >> Pilihan_01;
+            system("CLS");
+
+            Node* Bantu_1 = Head;
+
+            while (Bantu_1 != NULL)
+            {
+                if(Bantu_1->Nilai == Pilihan_01){
+                    std::cout << Bantu_1->Nilai << " ada di index ke-" << Bantu_Pcc << std::endl;
+                    Bantu_Pcc = 1;
+                    break;
+                }
+                Bantu_1 = Bantu_1->Kanan;
+                Bantu_Pcc++;
+            }
+            if(Bantu_1 == NULL){
+                std::cout << "Data yang ingin dicari tidak ada" << std::endl;
+            }
             
         }
 
